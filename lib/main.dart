@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           visualDensity: VisualDensity.adaptivePlatformDensity,
           primarySwatch: Colors.blue),
-      home: SearchPage(),
+      home: BottonNavigationBar0(),
     ));
   }
 }

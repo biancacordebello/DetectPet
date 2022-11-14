@@ -82,27 +82,29 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
   final TextEditingController _breed = TextEditingController();
   final TextEditingController _age = TextEditingController();
   final TextEditingController _localization = TextEditingController();
-  
+  var porte = TextEditingController();
+  var sexo = TextEditingController();
+  var situacao = TextEditingController();
 
  
-  final List<String> items = [
+  final List<String> porte1 = [
   'Pequeno Porte',
   'Médio Porte',
   'Grande Porte',
 ];
-String? selectedValue;
+String selectedValue = '';
 
-final List<String> items1 = [
+final List<String> sexo1 = [
   'Macho',
   'Fêmea',
 ];
-String? selectedValue1;
+String selectedValue1 = '';
 
-final List<String> items2 = [
+final List<String> situacao1 = [
   'Adoção',
   'Perdido',
 ];
-String? selectedValue2;
+String selectedValue2 = '';
 
 
 
@@ -289,12 +291,12 @@ String? selectedValue2;
           borderRadius: BorderRadius.circular(5),
           color: Color.fromARGB(255, 255, 255, 255),
           ),
-          items: items
-                  .map((item) =>
+          items: porte1
+                  .map((porte2) =>
                   DropdownMenuItem<String>(
-                    value: item,
+                    value: porte2,
                     child: Text(
-                      item,
+                      porte2,
                       style: const TextStyle(
                          fontFamily: 'Karla',
                         fontSize: 20,
@@ -304,10 +306,9 @@ String? selectedValue2;
                   
                   ))
                   .toList(),
-          value: selectedValue,
           onChanged: (value) {
             setState(() {
-              selectedValue = value as String;
+              selectedValue = value.toString();
             });
           },
           iconSize: 40,
@@ -348,12 +349,12 @@ String? selectedValue2;
           borderRadius: BorderRadius.circular(5),
           color: Color.fromARGB(255, 255, 255, 255),
           ),
-          items: items1
-                  .map((item1) =>
+          items: sexo1
+                  .map((sexo2) =>
                   DropdownMenuItem<String>(
-                    value: item1,
+                    value: sexo2,
                     child: Text(
-                      item1,
+                      sexo2,
                       style: const TextStyle(
                          fontFamily: 'Karla',
                         fontSize: 20,
@@ -363,10 +364,9 @@ String? selectedValue2;
                   
                   ))
                   .toList(),
-          value: selectedValue1,
           onChanged: (value) {
             setState(() {
-              selectedValue1 = value as String;
+              selectedValue1 = value.toString();
             });
           },
           iconSize: 40,
@@ -444,6 +444,7 @@ String? selectedValue2;
         height: 25
         ),
 
+      //SITUAÇÃO
       Padding(
       padding: EdgeInsets.symmetric(horizontal: 30),
       child: SizedBox(
@@ -464,12 +465,12 @@ String? selectedValue2;
           borderRadius: BorderRadius.circular(5),
           color: Color.fromARGB(255, 255, 255, 255),
           ),
-          items: items2
-                  .map((item2) =>
+          items: situacao1
+                  .map((situacao2) =>
                   DropdownMenuItem<String>(
-                    value: item2,
+                    value: situacao2,
                     child: Text(
-                      item2,
+                      situacao2,
                       style: const TextStyle(
                          fontFamily: 'Karla',
                         fontSize: 20,
@@ -479,12 +480,12 @@ String? selectedValue2;
                   
                   ))
                   .toList(),
-          value: selectedValue2,
           onChanged: (value) {
             setState(() {
-              selectedValue2 = value as String;
+              selectedValue2 = value.toString();
             });
           },
+          
           iconSize: 40,
           iconEnabledColor: Color(0xFFFDBE34),
           iconDisabledColor: Color(0xFFFDBE34),
@@ -495,8 +496,10 @@ String? selectedValue2;
           color: Color(0xFF035397).withOpacity(0.22),
           borderRadius: BorderRadius.circular(5),
             
-        ),
-      )))),
+        ) 
+      ),
+     
+      ))),
 
       SizedBox(
         height: 25
@@ -512,15 +515,25 @@ String? selectedValue2;
       children: [
       ElevatedButton(
       onPressed: () {
-      // if (_specie == null) {
-        // return SnackBar(content: content)'Especifique a Espécie'}
-        
-    //  else {
+        porte.text = selectedValue;
+        sexo.text = selectedValue1;
+        situacao.text = selectedValue2;
+     
+      if (selectedValue2 == 'Adoção') {
       sendData();
       Navigator.push(
       context,
       MaterialPageRoute(
       builder: (context) => BottonNavigationBar0()));
+      }
+     else if (selectedValue2 == 'Perdidos') {
+      sendDatap();
+      Navigator.push(
+      context,
+      MaterialPageRoute(
+      builder: (context) => BottonNavigationBar1()));
+     }
+    
       
       },  
   
@@ -587,7 +600,7 @@ String? selectedValue2;
     //BANCO DE DADOS - ENVIAR DADOS 
     void sendData() async{
     String id = Uuid().v1();
-    db.collection("publicacao").doc(id).set({
+    db.collection("adocao").doc(id).set({
     "Descrição": _description.text,
     "Espécie": _specie.text,
     "Raça": _breed.text,
@@ -597,29 +610,22 @@ String? selectedValue2;
     "Localização": _localization.text,
     "Situação": selectedValue2,
     }).onError((a, _) => print("Error writing document: $a"));
-     
- 
     }
-    
-       
- 
-    // void uploadFile() async{
-    // final path = 'images/${_photo!}';
-    // final file = File(_photo!.path);
 
-    // final ref = FirebaseStorage.instance.ref().child(path);
-    // ref.putFile(file);
+    void sendDatap() async{
+    String id = Uuid().v1();
+    db.collection("perdidos").doc(id).set({
+    "Descrição": _description.text,
+    "Espécie": _specie.text,
+    "Raça": _breed.text,
+    "Porte": selectedValue,
+    "Sexo": selectedValue1,
+    "Idade": _age.text,
+    "Localização": _localization.text,
+    "Situação": selectedValue2,
+    }).onError((a, _) => print("Error writing document: $a"));
+       
     }
-  // Future uploadFile() async {
-  //   if (_photo == null) return;
-  //   final fileName = basename(_photo!.path);
-  //   final destination = 'images/$fileName';
     
-  //   try {
-  //     final ref = firebase_storage.FirebaseStorage.instance
-  //     .ref(destination).child('file/');
-  //     await ref.putFile(_photo!);
-  //   } catch (e) {
-  //     print('Erro');
-  //   }
-  // }      
+   
+  }

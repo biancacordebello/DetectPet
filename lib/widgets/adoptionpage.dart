@@ -58,7 +58,7 @@ int selectedIndex = 0;
   
   
   Stream<QuerySnapshot> _getList () {
-    return db.collection('publicacao').snapshots();
+    return db.collection('adocao').snapshots();
   }
 
   @override
@@ -231,7 +231,7 @@ int selectedIndex = 0;
           borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10),
           topRight: Radius.circular(10))),
-          title: Image.asset('assets/images/noimage.png'),
+          title: Image.asset('assets/images/dog.png'),
           )),
 
           DecoratedBox(
@@ -316,12 +316,38 @@ int selectedIndex = 0;
           )),
           textColor: Colors.white,
           ),
-          // ListTile(
-          // title:  Text(doc['Sexo']),
-          // ),
-          // ListTile(
-          // title: Text(doc['Porte']),
-          // ),
+          const Divider(
+          height: 1,
+          color:Color.fromARGB(255, 38, 147, 242),
+          ),
+           ListTile(
+          leading: const Text("Sexo:", 
+          style: TextStyle(
+          fontFamily: 'Karla',
+          fontSize: 15)),
+          title:  Text(doc['Sexo'], 
+          style: const TextStyle(
+          fontFamily: 'Karla',
+          fontSize: 15,
+          )),
+          textColor: Colors.white,
+          ),
+          const Divider(
+          height: 1,
+          color:Color.fromARGB(255, 38, 147, 242),
+          ),
+          ListTile(
+          leading: const Text("Porte:", 
+          style: TextStyle(
+          fontFamily: 'Karla',
+          fontSize: 15)),
+          title:  Text(doc['Porte'], 
+          style: const TextStyle(
+          fontFamily: 'Karla',
+          fontSize: 15,
+          )),
+          textColor: Colors.white,
+          ),
 
           const Divider(
           height: 1,
@@ -345,78 +371,33 @@ int selectedIndex = 0;
           borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10),     
         ),
         
-      ))
+      )),
+        const Divider(
+          height: 1,
+          color:Color.fromARGB(255, 38, 147, 242),
+          ),
+
+          ListTile(
+          leading: const Text("Situação:", 
+          style: TextStyle(
+          fontFamily: 'Karla',
+          fontSize: 15
+          )),
+          title: Text(doc['Situação'], 
+          style: const TextStyle(
+          fontFamily: 'Karla',
+          fontSize: 15,
+          )
+          ),
+          textColor: Colors.white,
+          shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10),     
+          ))),
+        
       ])]))
       )
       ]);
   });
   }})));
- 
-
-            
-
-
-    //       body: SingleChildScrollView(  
-    //       child: Column(
-    //       mainAxisAlignment: MainAxisAlignment.center,
-    //       crossAxisAlignment: CrossAxisAlignment.center,
-    //       children: [
-    //       Padding(
-    //       padding: EdgeInsets.all(30.0),
-    //     child: SizedBox(
-    //     ////////////////
-    //     child: Container(
-
-        
-    //     // borderRadius.circular(10.0),
-    //     child: Card(
-    //     elevation: 0,
-    //     child: Column(
-    //     mainAxisSize: MainAxisSize.min,
-    //     children: <Widget>[
-
-    //       //IMAGEM
-    //       ListTile(
-    //     shape: RoundedRectangleBorder(
-    //     borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-    //      ),      
-    //       tileColor: Color(0xff035397),
-    //       title: Text('$situacao'),
-    //       ),
-
-    //       ExpansionTile(
-    //      // shape: RoundedRectangleBorder(
-    //  //   borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-    //       backgroundColor: Color(0xff047CE2),
-    //       collapsedBackgroundColor: Color(0xff047CE2),
-    //       title: Text(
-    //       '$descricao',
-    //       style: TextStyle(fontWeight: FontWeight.w500),
-    //       ),
-    //       trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
-    //       children: <Widget>[
-    //       ListTile(
-    //       title: Text('$especie',
-    //       style: TextStyle(fontWeight: FontWeight.w500),
-    //       )),
-    //       ListTile(
-    //           title: Text('$raca'),
-    //       ),
-    //       ListTile(
-    //       title: Text('$porte'),
-    //       ),
-    //       ListTile(
-    //       title: Text('$sexo'),
-    //       ),
-    //       ListTile(
-    //       title: Text('$idade'),
-    //       ),
-    //       ListTile(
-    //    //   shape: RoundedRectangleBorder(
-    //    //   borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-    //   //   ),      
-    //       title: Text('$localizacao'),
-    //     )]),
-    //     ],  )    ) )))])));
                
   }}
