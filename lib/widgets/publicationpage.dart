@@ -116,7 +116,7 @@ String selectedValue2 = '';
       
         appBar: AppBar(
           title: const Text('Nova Publicação'), 
-          titleTextStyle: TextStyle(color: Color(0xFFFDBE34), fontSize: 25, fontFamily: 'Karla'),
+          titleTextStyle: const TextStyle(color: Color(0xFFFDBE34), fontSize: 25, fontFamily: 'Karla'),
           backgroundColor: const Color(0xFF035397),
           toolbarHeight: 60,
           leading:  
@@ -126,7 +126,7 @@ String selectedValue2 = '';
                  Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => BottonNavigationBar0(),
+                          builder: (context) => const BottonNavigationBar0(),
                         ));
               },
             )
@@ -139,7 +139,7 @@ String selectedValue2 = '';
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
           Padding(
-          padding: EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(15.0),
           child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -168,20 +168,20 @@ String selectedValue2 = '';
                             borderRadius: BorderRadius.circular(5)),
                         width: 250,
                         height: 250,
-                        child: Icon(
+                        child: const Icon(
                            Icons.add_photo_alternate_rounded,
                           color: Color(0xFFFDBE34), size: 50,
                         ),
           
           )))])),
         
-        SizedBox(
+        const SizedBox(
         height: 25
         ),
 
          //DESCRIÇÃO
         Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
         child: SizedBox(
         height: 50,
         width: double.infinity,
@@ -196,31 +196,26 @@ String selectedValue2 = '';
         borderSide: BorderSide.none
         ),               
         labelText: 'Descrição',
-        labelStyle: TextStyle(
-        color: const Color(0xFF035397),
+        labelStyle: const TextStyle(
+        color: Color(0xFF035397),
         fontFamily: 'Karla',
         fontSize: 20,
         )))
         )),
          
        
-        SizedBox(
+        const SizedBox(
         height: 25
         ),
 
         //ESPÉCIE DO ANIMAL
         Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
         child: SizedBox(
         height: 50,
         width: double.infinity,
         child: TextFormField(
-        validator: (_specie) {
-        if (_specie == null || _specie.isEmpty) {
-          return 'Campo obrigatório';
-        }
-         return null;
-        }, 
+        validator: (_specie) {},
         controller: _specie,
         decoration: InputDecoration(
         filled: true,
@@ -230,20 +225,20 @@ String selectedValue2 = '';
         borderSide: BorderSide.none,
         ),       
         labelText: 'Espécie',
-        labelStyle: TextStyle(
-        color: const Color(0xFF035397),
+        labelStyle: const TextStyle(
+        color: Color(0xFF035397),
         fontFamily: 'Karla',
         fontSize: 20,
         )))
         )),
 
-        SizedBox(
+        const SizedBox(
         height: 25
         ),
        
         //RAÇA DO ANIMAL
         Padding(       
-      padding: EdgeInsets.symmetric(horizontal: 30),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
         child: SizedBox(
         height: 50,
         width: double.infinity,
@@ -258,28 +253,28 @@ String selectedValue2 = '';
         borderSide: BorderSide.none,
         ),        
         labelText: 'Raça',
-        labelStyle: TextStyle(
-        color: const Color(0xFF035397),
+        labelStyle: const TextStyle(
+        color: Color(0xFF035397),
         fontFamily: 'Karla',
         fontSize: 20,
         )))
         )),
         
        
-        SizedBox(
+        const SizedBox(
         height: 25,
         ),
 
       //PORTE
        Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
       child: SizedBox(
         height: 50,
         width: double.infinity,        
         child: DropdownButtonHideUnderline(
         child: DropdownButton2(
         isExpanded: true,
-          hint: Text(
+          hint: const Text(
             'Selecione o Porte',
             style: TextStyle(
               fontSize: 20,
@@ -289,7 +284,7 @@ String selectedValue2 = '';
           ),
           dropdownDecoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: Color.fromARGB(255, 255, 255, 255),
+          color: const Color.fromARGB(255, 255, 255, 255),
           ),
           items: porte1
                   .map((porte2) =>
@@ -312,32 +307,32 @@ String selectedValue2 = '';
             });
           },
           iconSize: 40,
-          iconEnabledColor: Color(0xFFFDBE34),
-          iconDisabledColor: Color(0xFFFDBE34),
+          iconEnabledColor: const Color(0xFFFDBE34),
+          iconDisabledColor: const Color(0xFFFDBE34),
           buttonHeight: 40,
           buttonWidth: 140,
           itemHeight: 40,
           buttonDecoration: BoxDecoration(
-          color: Color(0xFF035397).withOpacity(0.22),
+          color: const Color(0xFF035397).withOpacity(0.22),
           borderRadius: BorderRadius.circular(5),
             
         ),
       )))),
           
-        SizedBox(
+        const SizedBox(
         height: 25
         ),
 
         //SEXO
        Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
       child: SizedBox(
         height: 50,
         width: double.infinity,        
         child: DropdownButtonHideUnderline(
         child: DropdownButton2(
         isExpanded: true,
-          hint: Text(
+          hint: const Text(
             'Selecione o Sexo',
             style: TextStyle(
               fontSize: 20,
@@ -347,7 +342,7 @@ String selectedValue2 = '';
           ),
           dropdownDecoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: Color.fromARGB(255, 255, 255, 255),
+          color: const Color.fromARGB(255, 255, 255, 255),
           ),
           items: sexo1
                   .map((sexo2) =>
@@ -370,27 +365,27 @@ String selectedValue2 = '';
             });
           },
           iconSize: 40,
-          iconEnabledColor: Color(0xFFFDBE34),
-          iconDisabledColor: Color(0xFFFDBE34),
+          iconEnabledColor: const Color(0xFFFDBE34),
+          iconDisabledColor: const Color(0xFFFDBE34),
           buttonHeight: 40,
           buttonWidth: 140,
           itemHeight: 40,
           buttonDecoration: BoxDecoration(
-          color: Color(0xFF035397).withOpacity(0.22),
+          color: const Color(0xFF035397).withOpacity(0.22),
           borderRadius: BorderRadius.circular(5),
             
         ),
       )))),
           
 
-        SizedBox(
+        const SizedBox(
         height: 25
         ),
 
 
         //IDADE
        Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
         child: SizedBox(
         height: 50,
         width: double.infinity,
@@ -405,20 +400,20 @@ String selectedValue2 = '';
         borderSide: BorderSide.none,
         ),
         labelText: 'Idade',
-        labelStyle: TextStyle(
-        color: const Color(0xFF035397),
+        labelStyle: const TextStyle(
+        color: Color(0xFF035397),
         fontFamily: 'Karla',
         fontSize: 20
         )))
         )),
 
-        SizedBox(
+        const SizedBox(
         height: 25
         ),
 
       //LOCALIZAÇÃO
       Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
       child: SizedBox(
       height: 50,
       width: double.infinity,
@@ -433,27 +428,27 @@ String selectedValue2 = '';
       borderSide: BorderSide.none,
       ),
       labelText: 'Localização',
-      labelStyle: TextStyle(
-      color: const Color(0xFF035397),
+      labelStyle: const TextStyle(
+      color: Color(0xFF035397),
       fontFamily: 'Karla',
       fontSize: 20
        )))
        )),
       
-       SizedBox(
+       const SizedBox(
         height: 25
         ),
 
       //SITUAÇÃO
       Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
       child: SizedBox(
         height: 50,
         width: double.infinity,        
         child: DropdownButtonHideUnderline(
         child: DropdownButton2(
         isExpanded: true,
-          hint: Text(
+          hint: const Text(
             'Selecione a Situação do Animal',
             style: TextStyle(
               fontSize: 20,
@@ -463,7 +458,7 @@ String selectedValue2 = '';
           ),
           dropdownDecoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: Color.fromARGB(255, 255, 255, 255),
+          color: const Color.fromARGB(255, 255, 255, 255),
           ),
           items: situacao1
                   .map((situacao2) =>
@@ -486,29 +481,30 @@ String selectedValue2 = '';
             });
           },
           
+          
           iconSize: 40,
-          iconEnabledColor: Color(0xFFFDBE34),
-          iconDisabledColor: Color(0xFFFDBE34),
+          iconEnabledColor: const Color(0xFFFDBE34),
+          iconDisabledColor: const Color(0xFFFDBE34),
           buttonHeight: 40,
           buttonWidth: 140,
           itemHeight: 40,
           buttonDecoration: BoxDecoration(
-          color: Color(0xFF035397).withOpacity(0.22),
+          color: const Color(0xFF035397).withOpacity(0.22),
           borderRadius: BorderRadius.circular(5),
-            
+          
         ) 
       ),
      
       ))),
 
-      SizedBox(
+      const SizedBox(
         height: 25
         ),
 
 
        //Botão Enviar
       Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Row(
       mainAxisAlignment: MainAxisAlignment.end,
       textDirection: TextDirection.ltr,
@@ -524,20 +520,48 @@ String selectedValue2 = '';
       Navigator.push(
       context,
       MaterialPageRoute(
-      builder: (context) => BottonNavigationBar0()));
+      builder: (context) => const BottonNavigationBar0()));
       }
      else if (selectedValue2 == 'Perdidos') {
       sendDatap();
       Navigator.push(
       context,
       MaterialPageRoute(
-      builder: (context) => BottonNavigationBar1()));
+      builder: (context) => const BottonNavigationBar1()));
      }
-    
+      else if (selectedValue2 == null || selectedValue2.isEmpty || _specie == null || selectedValue1 == null || selectedValue1.isEmpty ||
+      selectedValue == null || selectedValue.isEmpty || _age == null || _breed == null || _description == null ||
+      _localization == null   
+      )
+      {
+      showDialog(
+      context: context,
+      builder: (BuildContext context) {
+      return AlertDialog(
+      title: new Text("Erro"),
+      content: new Text("Verifique se algum campo se encontra vazio"), 
+      shape: const RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(Radius.circular(20))),
+      actions: <Widget>[
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFFFDBE34),
+          shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5))),
+          child: const Text("OK", style: TextStyle(color: Colors.black)),
+        ),
+      ],
+    );
+  },
+);
+      }
       
       },  
   
-      child: Text(
+      child: const Text(
       "Enviar",
       style: TextStyle(
       color: Colors.black,
@@ -547,13 +571,13 @@ String selectedValue2 = '';
       ),
       style: ElevatedButton.styleFrom(
       fixedSize: const Size(111, 40),
-      primary: Color(0xFFFDBE34),
+      primary: const Color(0xFFFDBE34),
       shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(5))
       )),],
 
       )),
-        SizedBox(
+        const SizedBox(
         height: 25
         ),
       
@@ -599,7 +623,7 @@ String selectedValue2 = '';
 
     //BANCO DE DADOS - ENVIAR DADOS 
     void sendData() async{
-    String id = Uuid().v1();
+    String id = const Uuid().v1();
     db.collection("adocao").doc(id).set({
     "Descrição": _description.text,
     "Espécie": _specie.text,
@@ -613,7 +637,7 @@ String selectedValue2 = '';
     }
 
     void sendDatap() async{
-    String id = Uuid().v1();
+    String id = const Uuid().v1();
     db.collection("perdidos").doc(id).set({
     "Descrição": _description.text,
     "Espécie": _specie.text,
