@@ -47,6 +47,7 @@ dependencies:
   uuid: ^3.0.6
   firebase_storage: ^11.0.2
   path: ^1.8.2
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +77,9 @@ flutter:
     - assets/images/noimage.png
     - assets/images/paw.png
     - assets/images/dog.png
+    - assets/images/Drawer.png
+    - assets/images/dogandowner.png
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

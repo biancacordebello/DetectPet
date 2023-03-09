@@ -14,6 +14,7 @@ import 'package:tcc/widgets/chatpage.dart';
 import 'package:tcc/widgets/vetpage.dart';
 import 'package:tcc/widgets/profilepage.dart';
 import 'package:tcc/widgets/button/button.dart';
+import 'package:tcc/widgets/welcome.dart';
 
 
 void main() async {
@@ -24,9 +25,15 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  
   @override
   Widget build(BuildContext context) {
     return (MaterialApp(
@@ -35,7 +42,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           visualDensity: VisualDensity.adaptivePlatformDensity,
           primarySwatch: Colors.blue),
-      home: BottonNavigationBar0(),
+      home: WelcomePage(),
     ));
   }
 }

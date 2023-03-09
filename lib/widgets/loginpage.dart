@@ -34,180 +34,233 @@ class LoginPage extends StatefulWidget {
 
   @override
   Widget build(BuildContext context) {
+   var size = MediaQuery.of(context).size;
     return MaterialApp(
         debugShowCheckedModeBanner: false, //take out the banner
         home: Scaffold(
           backgroundColor: const Color(0xFF035397), //background login app color
           body: Form(
               key: formKey,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    const Text(
-                      'DetectPet',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 64,
-                          fontFamily: 'Chewy-Regular'),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-
+                child: Center(
+              child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                    Stack(  
+                    clipBehavior: Clip.none,
+                     alignment: Alignment.center,
+                       children: [
+                      LayoutBuilder(
+                        builder: (_, constraints) {
+                          return
+                      Positioned (
+                      top: 0,
+                      child:
+                        Container(
+                          height: size.height,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                            image: AssetImage('assets/images/paw.png'),
+                            fit: BoxFit.cover),
+                    )));}),
+                   
+                      const Positioned (
+                      top: 157,
+                      child: Text("DetectPet",
+                      style: TextStyle (
+                      color: Colors.white,
+                      fontSize: 64,
+                      fontFamily: 'Chewy-Regular'
+                      )),
+                      ),
+                    
+                      Positioned (
+                      top: 255,
+                      child: LayoutBuilder(
+                        builder: (_, constraints) {
+                          return
+                        Container(
+                        height: size.height,
+                        width: size.width,
+                        decoration: const BoxDecoration(
+                         color: Color.fromARGB(255, 255, 255, 255),
+                          borderRadius: BorderRadius.all (Radius.circular(71))
+                             ));} )),
+                             
+                      const Positioned (
+                      top: 291,
+                      child: Text("Faça Login na sua conta",
+                      style: TextStyle (
+                      color: Color(0xff035397),
+                      fontSize: 20,
+                      fontFamily: 'Karla'
+                      )),
+                      ),
+                           
+                  
                     Positioned(
-                        top: 289,
-                        child: SizedBox(
-                          width: 309,
-                          height: 80,
-                          child: TextFormField(
-                              controller: _email,
-                              validator: (_email) {
-                                if (_email == null ||
-                                    _email.isEmpty ||
-                                    !_email.contains('@') ||
-                                    !_email.contains('.') ||
-                                    _email.length > 30) {
-                                  return 'E-mail inválido';
-                                }
-                              },
-                              autofocus: false,
-                              decoration: InputDecoration(
+                    top: 360,
+                    child: SizedBox(
+                      width: 275,
+                      height: 55,
+                      child: TextFormField(
+                      controller: _email,
+                      validator: (_email) {
+                        if (_email == null ||
+                            _email.isEmpty ||
+                            !_email.contains('@') ||
+                            !_email.contains('.') ||
+                            _email.length > 30) {
+                          return 'E-mail inválido';
+                        }
+                  },
+                  autofocus: false,
+                  decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Color.fromARGB(141, 193, 206, 235), width: 1),
+                      borderRadius: BorderRadius.circular(110)),
+                      hintText: 'E-mail',
+                      hintStyle: const TextStyle(
+                        fontFamily: 'Karla',
+                        color: Color(0xffa89f9f),
+                      
+                      )),
+                  keyboardType: TextInputType.text,
+                  style:
+                      const TextStyle(color: Colors.black, fontSize: 20)),
+            )),
+        
+               
+             //SENHA
+          
+            Positioned(
+            top: 427,  
+              child: 
+               SizedBox(
+                      width: 275,
+                      height: 55,
+                            child: TextFormField(
+                              controller: _senha,
+                                validator: (_senha) {
+                                  if (_senha == null || _senha.isEmpty) {
+                                    return 'Senha inválida';
+                                  }
+                                },
+                                autofocus: false,
+                                decoration: InputDecoration(
                                   filled: true,
                                   fillColor: Colors.white,
                                   border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(5)),
-                                  hintText: 'E-mail',
-                                  hintStyle: TextStyle(
+                                   borderSide: BorderSide(color: Color.fromARGB(141, 193, 206, 235), width: 1),
+                                  borderRadius: BorderRadius.circular(110)),
+                                  hintText: 'Senha',
+                                  hintStyle: const TextStyle(
                                     fontFamily: 'Karla',
                                     color: Color(0xffa89f9f),
-                                  )),
-                              keyboardType: TextInputType.text,
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 20)),
-                        )),
-                    Divider(
-                      height: 10,
-                      color: Color(0xFF035397),
-                    ),
-
-                    //SENHA
-                    Positioned(
-                        top: 364,
-                        child: SizedBox(
-                          width: 309,
-                          height: 80,
-                          child: TextFormField(
-                            controller: _senha,
-                              validator: (_senha) {
-                                if (_senha == null || _senha.isEmpty) {
-                                  return 'Senha inválida';
-                                }
-                              },
-                              autofocus: false,
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                                hintText: 'Senha',
-                                hintStyle: TextStyle(
-                                  fontFamily: 'Karla',
-                                  color: Color(0xffa89f9f),
+                                  ),
+                                  
                                 ),
-                              ),
-                              obscureText: true,
-                              keyboardType: TextInputType.text,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontFamily: 'Karla',
-                              )),
-                        )),
-                    Divider(
-                      height: 5,
-                      color: Color(0xFF035397),
-                    ),
+                                
+                                obscureText: true,
+                                keyboardType: TextInputType.text,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontFamily: 'Karla',
+                                )),
+                  )),
 
-                     TextButton(
-                      style: TextButton.styleFrom(
-                        textStyle: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontFamily: 'Karla',
+           
+           
+                  Positioned(
+                    top: 480,  
+                      child: 
+                       TextButton(
+                        style: TextButton.styleFrom(
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontFamily: 'Karla',
+                          ),
                         ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Password()));
-                      },
-                      child: const Text('Esqueci minha senha')),
-
-                  SizedBox(
-                    height: 16,
-                  ),
-
-                    //ENTRAR
-                    ButtonTheme(
-                      child: ElevatedButton(
                         onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                          login();
-                      }},
-                        child: Text(
-                          "Entrar",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontFamily: 'Karla',
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                            fixedSize: const Size(281, 60),
-                            primary: Color(0xFFFDBE34),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(85))),
-                      ),
-                    ),
-                    Divider(
-                      height: 10,
-                      color: Color(0xFF035397),
-                    ),
-
-                    //CADASTRO
-                    ButtonTheme(
-                      child: ElevatedButton(
-                        onPressed: () => {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => RegisterPage(),
-                              ))
+                         Navigator.push(
+                          context,
+                           MaterialPageRoute(
+                             builder: (context) => Password()));
                         },
-                        child: Text(
-                          "Quero me cadastrar",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontFamily: 'Karla',
+                        child: const Text('Esqueci minha senha'))),
+              
+                   
+                      //ENTRAR
+                    Positioned(
+                    top: 533,  
+                      child: 
+                      ButtonTheme(
+                        child: ElevatedButton(
+                          
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                            login();
+                        }},
+                          child: const Text(
+                            "Entrar",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 17,
+                              fontFamily: 'Karla',
+                            ),
                           ),
+                          style: ElevatedButton.styleFrom(
+                          elevation: 2,
+                              fixedSize: const Size(204, 50),
+                              primary: const Color(0xFFFCD900),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(85))),
                         ),
-                        style: ElevatedButton.styleFrom(
-                            fixedSize: const Size(281, 60),
-                            primary: Color(0xFFFFFFFF),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(85))),
-                      ),
-                    ),
-                  ],
-                ),
-              )),
+                      )),
 
-        ),
-);
+                  
+              
+                      //CADASTRO
+                    Positioned(
+                    top: 605,  
+                      child: 
+                      ButtonTheme(
+                        child: ElevatedButton(
+                          onPressed: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const RegisterPage(),
+                                ))
+                          },
+                          child: const Text(
+                            "Quero me cadastrar",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 17,
+                              fontFamily: 'Karla',
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                             elevation: 2,
+                              fixedSize: const Size(204, 50),
+                              primary: const Color(0xFF035397),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(85))),
+                      )),
+                      ),
+              ],
+            ),      ])),
+                ),
+    )));
+
+        
+
 } 
        login () async {
         try {
@@ -218,17 +271,28 @@ class LoginPage extends StatefulWidget {
         Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-        builder: (context) => BottonNavigationBar0()
+        builder: (context) => const BottomNavigationBar0()
     )
     );
-    } }
-
+    } 
+    }
       on FirebaseAuthException catch (e) {
-        if(e.code == 'user-not-found') {
-          return null;
+        if (e.code == 'user-not-found') {
+        ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+        content: Text("Usuário não encontrado"),
+        backgroundColor: Colors.redAccent,
+        ));}
 
+        else if (e.code == 'wrong-password') {
+        ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+        content: Text("Sua senha está errada"),
+        backgroundColor: Colors.redAccent,
+        ));}
 
- }  }} }
+  }
+ } }
 //     else if (e.code == 'wrong-password'){
 //           return null;
   

@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:tcc/widgets/informationpage.dart';
 import 'package:tcc/widgets/loginpage.dart';
 import 'package:tcc/widgets/searchpage.dart';
 import 'package:tcc/widgets/chatpage.dart';
@@ -12,6 +13,7 @@ import 'package:tcc/widgets/vetpage.dart';
 import 'package:tcc/widgets/profilepage.dart';
 import 'package:tcc/widgets/publicationpage.dart';
 import 'package:tcc/widgets/button/button.dart';
+import 'package:tcc/widgets/informationppage.dart';
 import 'package:tcc/database/db_firestore.dart';
 import 'package:uuid/uuid.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -20,22 +22,26 @@ int selectedIndex = 0;
 
 
  class AdoptionPage extends StatefulWidget {
- const AdoptionPage({Key? key}) : super(key: key);
+ const AdoptionPage ({Key? key}) : super(key: key);
  
 
   @override
 
-  _AdoptionPage createState() => _AdoptionPage();
+  _AdoptionPage  createState() => _AdoptionPage ();
 
   }
 
 
-  class _AdoptionPage extends State<AdoptionPage> {
+  class _AdoptionPage extends State<AdoptionPage > {
   
   FirebaseFirestore db = FirebaseFirestore.instance;
   List<Reference> refs = [];
   List<String> arquivos = [];
   bool loading = true;
+  // Reference referenceRoot = FirebaseStorage.instance.ref();
+  // Reference referenceDirImages = referenceRoot.child('images');
+
+  // Reference referenceImageToUpload = referenceDirImages
 
   @override
   void initState() {
@@ -48,9 +54,12 @@ int selectedIndex = 0;
     for(var ref in refs) {
       arquivos.add(await ref.getDownloadURL());
     }
+    if (this.mounted) { // check whether the state object is in tree
     setState(() {
       loading = false;
+      // make changes here
     });
+  }
   }
 
   firebase_storage.FirebaseStorage storage =
@@ -61,52 +70,88 @@ int selectedIndex = 0;
     return db.collection('adocao').snapshots();
   }
 
+  navigateToDetail(DocumentSnapshot post){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => InformationPage(post: post,)));
+
+  }
+
   @override
 
   
   Widget build(BuildContext context) {
     // var especie2 = especie;
     return Scaffold(
-      
+            backgroundColor: const Color(0xffF5F5F5),
         appBar: AppBar(
-          backgroundColor: const Color(0xFF035397),
-          toolbarHeight: 60,
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.search, color: Colors.white, size: 40),
-              onPressed: () {},
-            ),
-            const SizedBox(width: 15),
-          ],
+            backgroundColor: const Color(0xffF5F5F5),
+        toolbarHeight: 60,
+        automaticallyImplyLeading: false,
+        title: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 18),
+          child: Builder(
+            builder: (context) => 
+            Container(
+            width: 45,
+            height: 45,
+            child: IconButton(
+            icon: const Icon(Icons.menu_rounded, color: Color(0xFFFCD900)),
+            onPressed: () => Scaffold.of(context).openDrawer()),
+            decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(10)), 
+            color: const Color(0xFF035397),
+                ),
+            )),
+          ),
+        elevation: 0,
+        centerTitle: false,
+        titleSpacing: 0,
         ),
 
         //DRAWER
         drawer: Drawer(
-            backgroundColor: const Color(0xff047CE2),
-            child: ListView(padding: const EdgeInsets.only(left: 18), children: [
+            backgroundColor: Color(0xfffffffff),
+            child:
+            ListView(padding: const EdgeInsets.only(left: 18), children: [
               const SizedBox(
-                  height: 70,
+                  height: 110,
                   child: DrawerHeader(
                     decoration: BoxDecoration(
-                      color: Color(0xff047CE2),
+                      color: Color(0xfffffffff),
+                    //   image: DecorationImage(
+                    //     image: AssetImage('assets/images/Drawer.png'),
+                    //     fit: BoxFit.cover,
+                    // )
                     ),
-                    child: null,
-                  )),
+                    child: Text('DetectPet',
+                    style: TextStyle(
+                        color: Color(0xFF035397),
+                        fontSize: 40,
+                        fontFamily: 'Chewy-Regular')),
+                    ),
+                  ),
               ListTile(
+                leading: Icon(Icons.pets_rounded,
+                color: Color(0xFF035397), size: 30),
                 selectedTileColor: const Color(0xFF035397),
                 title: const Text('Adoção',
                     style: TextStyle(
-                        color: Color(0xffffffff),
+                        color: Color(0xFF035397),
                         fontSize: 20,
                         fontFamily: 'Karla')),
                 onTap: () {
-                  Navigator.pop(context);
+                   Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const BottomNavigationBar0()));
                 },
               ),
+              Divider(),
               ListTile(
+               leading: Icon(Icons.pets_rounded,
+               color: Color(0xFF035397), size: 30),
                 title: const Text('Perdidos',
                     style: TextStyle(
-                      color: Color(0xffffffff),
+                      color: Color(0xFF035397),
                       fontSize: 20,
                       fontFamily: 'Karla',
                     )),
@@ -114,66 +159,20 @@ int selectedIndex = 0;
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const BottonNavigationBar1(),
+                        builder: (context) => const BottomNavigationBar2(),
                       ));
                 },
               ),
+              Divider(),
               ListTile(
-                  title: const Text('Chat',
-                      style: TextStyle(
-                        color: Color(0xffffffff),
-                        fontSize: 20,
-                        fontFamily: 'Karla',
-                      )),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const BottonNavigationBar3(),
-                        ));
-                  }),
-              ListTile(
-                title: const Text('Dicas',
-                    style: TextStyle(
-                      color: Color(0xffffffff),
-                      fontSize: 20,
-                      fontFamily: 'Karla',
-                    )),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => VetPage(),
-                      ));
-                },
-              ),
-              ListTile(
-                title: const Text('Perfil',
-                    style: TextStyle(
-                      color: Color(0xffffffff),
-                      fontSize: 20,
-                      fontFamily: 'Karla',
-                    )),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const BottonNavigationBar4(),
-                      ));
-                },
-              ),
-              const SizedBox(
-                height: 455,
-              ),
-              ListTile(
-                  title: const Text("Sair",
-                      style: TextStyle(
-                        color: Color(0xffffffff),
-                        fontSize: 20,
-                        fontFamily: 'Karla',
-                      )),
+                title: const Text("Sair",
+                  style: TextStyle(
+                  color: Color(0xFF035397),
+                  fontSize: 20,
+                  fontFamily: 'Karla',
+                  )),
                   leading: const Icon(Icons.exit_to_app,
-                      color: Color(0xffffffff), size: 40),
+                  color: Color(0xFF035397), size: 30),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -184,10 +183,68 @@ int selectedIndex = 0;
                 ]
                 )),
 
+              // ListTile(
+              //     title: const Text('Chat',
+              //         style: TextStyle(
+              //           color: Color(0xffffffff),
+              //           fontSize: 20,
+              //           fontFamily: 'Karla',
+              //         )),
+              //     onTap: () {
+              //       Navigator.push(
+              //           context,
+              //           MaterialPageRoute(
+              //             builder: (context) => const BottonNavigationBar3(),
+              //           ));
+              //     }),
+              // ListTile(
+              //   title: const Text('Perfil',
+              //       style: TextStyle(
+              //         color: Color(0xffffffff),
+              //         fontSize: 20,
+              //         fontFamily: 'Karla',
+              //       )),
+              //   onTap: () {
+              //     Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //           builder: (context) => const BottonNavigationBar4(),
+              //         ));
+              //   },
+              // ),
+            
+
+
           //CARDS
           body: Padding(
           padding: const EdgeInsets.all(16),
-            child: StreamBuilder<QuerySnapshot>(
+             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+
+              children: [
+                    
+                    Text('Adote um Pet', style: TextStyle(fontFamily: 'Chewy-Regular',
+              fontSize: 25,
+              color: Color(0xFF035397)),),
+
+             Divider(),
+                     
+                    // TextField (
+                    // decoration: InputDecoration(
+                    // filled: true,
+                    // fillColor:  Colors.white,
+                    // border: OutlineInputBorder(
+                    // borderRadius: BorderRadius.circular(5),
+                    // borderSide: BorderSide.none,
+                    // ),       
+                    // hintText: 'Pesquise',
+                    // )),
+
+             
+
+             
+
+              StreamBuilder<QuerySnapshot>(
               stream: _getList() ,
               builder: ( _, snapshot) {
                 switch(snapshot.connectionState) {
@@ -206,203 +263,108 @@ int selectedIndex = 0;
                     );
                   }
       
-      return ListView.builder(
+      
+      return Expanded(
+          child: ListView.builder(
       itemCount: snapshot.data!.docs.length,
       itemBuilder: ( _, index) {
       
       final DocumentSnapshot doc = snapshot.data!.docs[index];
-      return Column(            
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+      return  Expanded(
+          child:Column(         
           children: [
           Padding(
-          padding: const EdgeInsets.all(30.0),   
-          child: Card(
+          padding: const EdgeInsets.all(16.0),   
+           child: Card(
          elevation: 0,
-         child: Column(
+        child: Column(
         mainAxisSize: MainAxisSize.min,
         
         children: <Widget>[
           SizedBox( 
-          height: 180,
-          width: 240,    
+          height: 115,
           child: ListTile(
           shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10),
           topRight: Radius.circular(10))),
-          title: Image.asset('assets/images/dog.png'),
+          title: Image.network('${doc['Imagem']}', fit: BoxFit.cover),
+          
           )),
 
-          DecoratedBox(
+          // DecoratedBox(
+          // decoration: const BoxDecoration(
+          // borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
+
+         Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16 ),
+          child:Column(
+            children: [
+          SizedBox(
+          height: 70,
+          
+          child: DecoratedBox(
           decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
-
+          
+         
           child: ListTile(
-          leading: const Text("Descrição:", 
-          style: TextStyle(
-          fontFamily: 'Karla',
-          fontSize: 15
-          )),
-          title: Text(doc['Descrição'],
+          title: Text(
+          doc['Nome'],
+          textAlign: TextAlign.start,
           style: const TextStyle(
           fontFamily: 'Karla',
-          fontSize: 15,
-          )
+          fontWeight: FontWeight.bold,
+          fontSize: 18)  
           ),
-          textColor: Colors.white,
-          tileColor: const Color(0xff035397),
-          )),
-       
-          const Divider(
-          height: 1,
-          color:Color.fromARGB(255, 38, 147, 242),
-          ),
-          
-          ExpansionTile(
-          textColor: Colors.white,
-          collapsedTextColor: Colors.white,
-          backgroundColor: const Color(0xff047CE2),
-          collapsedBackgroundColor: const Color(0xff047CE2),
-          leading: const Text("Espécie:",
-          style: TextStyle(
-          fontFamily: 'Karla',
-          fontSize: 15,
-          )),
-          title:  Text(doc['Espécie'],
-          style: const TextStyle(
-          fontFamily: 'Karla',
-          fontSize: 15,
-          ),
-          ),
-          trailing: const Icon(Icons.arrow_drop_down, color: Colors.white),
-          children: [ 
-          
-          const Divider(
-          height: 1,
-          color:Color.fromARGB(255, 38, 147, 242),
-          ),
-
-          ListTile(
-          leading: const Text("Localização:", 
-          style: TextStyle(
-          fontFamily: 'Karla',
-          fontSize: 15)),
-          title: Text(doc['Localização'], 
-          style: const TextStyle(
-          fontFamily: 'Karla',
-          fontSize: 15,
-          )
-          ),
-          textColor: Colors.white,
-          ),
-
-          const Divider(
-          height: 1,
-          color:Color.fromARGB(255, 38, 147, 242),
-          ),
-
-
-          ListTile(
-          leading: const Text("Raça:", 
-          style: TextStyle(
-          fontFamily: 'Karla',
-          fontSize: 15)),
-          title:  Text(doc['Raça'], 
-          style: const TextStyle(
-          fontFamily: 'Karla',
-          fontSize: 15,
-          )),
-          textColor: Colors.white,
-          ),
-          const Divider(
-          height: 1,
-          color:Color.fromARGB(255, 38, 147, 242),
-          ),
-           ListTile(
-          leading: const Text("Sexo:", 
-          style: TextStyle(
-          fontFamily: 'Karla',
-          fontSize: 15)),
-          title:  Text(doc['Sexo'], 
-          style: const TextStyle(
-          fontFamily: 'Karla',
-          fontSize: 15,
-          )),
-          textColor: Colors.white,
-          ),
-          const Divider(
-          height: 1,
-          color:Color.fromARGB(255, 38, 147, 242),
-          ),
-          ListTile(
-          leading: const Text("Porte:", 
-          style: TextStyle(
-          fontFamily: 'Karla',
-          fontSize: 15)),
-          title:  Text(doc['Porte'], 
-          style: const TextStyle(
-          fontFamily: 'Karla',
-          fontSize: 15,
-          )),
-          textColor: Colors.white,
-          ),
-
-          const Divider(
-          height: 1,
-          color:Color.fromARGB(255, 38, 147, 242),
-          ),
-
-          ListTile(
-          leading: const Text("Idade:", 
-          style: TextStyle(
-          fontFamily: 'Karla',
-          fontSize: 15
-          )),
-          title: Text(doc['Idade'], 
-          style: const TextStyle(
-          fontFamily: 'Karla',
-          fontSize: 15,
-          )
-          ),
-          textColor: Colors.white,
-          shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10),     
+         
+        subtitle: Text(
+        doc['Localização'],
+        textAlign: TextAlign.start,
+        style: const TextStyle(
+        fontFamily: 'Karla',
+        fontSize: 15)  
         ),
         
-      )),
-        const Divider(
-          height: 1,
-          color:Color.fromARGB(255, 38, 147, 242),
+        trailing: ButtonTheme(
+       child: ElevatedButton(
+          onPressed: () => navigateToDetail(doc),
+                
+          
+          child: const Text(
+            "Ver Mais",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              fontFamily: 'Karla',
+            ),
           ),
-
-          ListTile(
-          leading: const Text("Situação:", 
-          style: TextStyle(
-          fontFamily: 'Karla',
-          fontSize: 15
-          )),
-          title: Text(doc['Situação'], 
-          style: const TextStyle(
-          fontFamily: 'Karla',
-          fontSize: 15,
-          )
-          ),
-          textColor: Colors.white,
-          shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10),     
-          ))),
+          style: ElevatedButton.styleFrom(
+            elevation: 2,
+              fixedSize: const Size(100, 30),
+              primary: const Color(0xFF035397),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10))),
+      )))))]),
+       
+       
+     
+       ),
         
-      ])]))
-      )
-      ]);
-  });
-  }}))
+        
+        
+     
+        ]
+
+          
+         
+        
+          
+          
+      )))]));
   
-  
-  
-  );
+
+    
                
-  }
-  
-  }
+              }));
+              }})])));}}

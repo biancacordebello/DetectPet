@@ -46,7 +46,7 @@ class VetPage extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => BottonNavigationBar0(),
+                          builder: (context) => BottomNavigationBar0(),
                         ));
                   },
                 ),
@@ -61,23 +61,23 @@ class VetPage extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                  builder: (context) => BottonNavigationBar1()));
+                  builder: (context) => BottomNavigationBar1()));
                   },
                 ),
-                ListTile(
-                    title: const Text('Chat',
-                        style: TextStyle(
-                          color: Color(0xffffffff),
-                          fontSize: 20,
-                          fontFamily: 'Karla',
-                        )),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => BottonNavigationBar3(),
-                          ));
-                    }),
+                // ListTile(
+                //     title: const Text('Chat',
+                //         style: TextStyle(
+                //           color: Color(0xffffffff),
+                //           fontSize: 20,
+                //           fontFamily: 'Karla',
+                //         )),
+                //     onTap: () {
+                //       Navigator.push(
+                //           context,
+                //           MaterialPageRoute(
+                //             builder: (context) => BottonNavigationBar3(),
+                //           ));
+                //     }),
                 ListTile(
                     selectedTileColor: Color(0xFF035397),
                     title: const Text('Dicas',
@@ -87,21 +87,21 @@ class VetPage extends StatelessWidget {
                           fontFamily: 'Karla',
                         )),
                     onTap: () {}),
-                ListTile(
-                  title: const Text('Perfil',
-                      style: TextStyle(
-                        color: Color(0xffffffff),
-                        fontSize: 20,
-                        fontFamily: 'Karla',
-                      )),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BottonNavigationBar4(),
-                        ));
-                  },
-                ),
+                // ListTile(
+                //   title: const Text('Perfil',
+                //       style: TextStyle(
+                //         color: Color(0xffffffff),
+                //         fontSize: 20,
+                //         fontFamily: 'Karla',
+                //       )),
+                //   onTap: () {
+                //     Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //           builder: (context) => BottonNavigationBar4(),
+                //         ));
+                //   },
+                // ),
                 SizedBox(
                   height: 455,
                 ),

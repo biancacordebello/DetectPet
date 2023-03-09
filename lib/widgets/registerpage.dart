@@ -13,21 +13,6 @@ import 'package:tcc/firebase_options.dart';
 
 
 
-//   try {
-//     FirebaseUser user = await FirebaseAuth.instance
-//       .createUserWithEmailAndPassword(email: username, password: passaword);
-//     if (user != null) {
-//       Email_usuario = '';
-//       Senha_Usuario = '';
-//       FirebaseAuthNavigator.goToHome(context);
-//     }
-//   }
-// catch (e) {
-//   print(e);
-// }
-
-
-
 class RegisterPage extends StatefulWidget {
  const RegisterPage({Key? key}) : super(key: key);
   
@@ -45,13 +30,14 @@ class RegisterPage extends StatefulWidget {
   final formKey = GlobalKey<FormState>();
   final TextEditingController Email_usuario = TextEditingController();
   final TextEditingController _ConfirmeSenha = TextEditingController();
-  final TextEditingController Nome_usario = TextEditingController();
+  final TextEditingController Nome_usuario = TextEditingController();
   final TextEditingController Senha_usuario = TextEditingController();
   final _firebaseAuth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
   
+   var size = MediaQuery.of(context).size;
 
     return MaterialApp(
         debugShowCheckedModeBanner: false, //takes out the banner
@@ -59,54 +45,75 @@ class RegisterPage extends StatefulWidget {
             backgroundColor: const Color(0xFF035397),
             body: Form(
                 key: formKey,
-                child: Padding(
-                    padding: const EdgeInsets.all(20.0),
                     child: Center(
+                     child: SingleChildScrollView(
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            Positioned(
-                              top: 67,
-                              child: Text(
-                                'DetectPet',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 48,
-                                    fontFamily: 'Chewy-Regular'),
-                              ),
-                            ),
+                             Stack(  
+                    clipBehavior: Clip.none,
+                     alignment: Alignment.center,
+                       children: [
+                      LayoutBuilder(
+                        builder: (_, constraints) {
+                          return
+                      Positioned (
+                      top: 0,
+                      child:
+                        Container(
+                          height: size.height,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                            image: AssetImage('assets/images/paw.png'),
+                            fit: BoxFit.cover),
+                    )));}),
 
-                            //ESPAÇAMENTO ENTRE O TITULO E SUBTITULO
-                            Divider(
-                              height: 17,
-                              color: Color(0xFF035397),
-                            ),
+                      const Positioned(
+                        top: 157,
+                        child: Text(
+                          'DetectPet',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 64,
+                              fontFamily: 'Chewy-Regular'))
+                      ),
+
+                       Positioned (
+                      top: 255,
+                      child: LayoutBuilder(
+                        builder: (_, constraints) {
+                          return
+                        Container(
+                        height: size.height,
+                        width: size.width,
+                        decoration: const BoxDecoration(
+                         color: Colors.white,
+                          borderRadius: BorderRadius.all (Radius.circular(71))
+                             ));} )),
+                             
 
                             //SUBTITULO
-                            Positioned(
-                              top: 131,
+                            const Positioned(
+                              top: 291,
                               child: Text(
-                                'Bem vindo ao FindPet! Digite seus dados para cadastro',
+                                
+                                'Digite seus dados para Cadastro',
                                 textAlign:
                                     TextAlign.center, //BEM VINDO - DESCRIÇÃO
                                 style: TextStyle(
                                     fontFamily: 'Karla',
-                                    color: Colors.white,
-                                    fontSize: 16),
+                                    color: Color(0xff035397),
+                                    fontSize: 20),
                               ),
                             ),
-                            Divider(
-                              height: 45,
-                              color: Color(0xFF035397),
-                            ),
-
+                           
                             //NOME
                             Positioned(
-                                top: 212,
+                                top: 360,
                                 child: SizedBox(
-                                  width: 271,
-                                  height: 80,
+                                 width: 275,
+                                 height: 55,
                                   child: TextFormField(
                                       validator: (value) {
                                         if (value == null ||
@@ -116,8 +123,8 @@ class RegisterPage extends StatefulWidget {
                                         }
                                         return null;
                                       },
-                                      autofocus: true,
-                                      controller: Nome_usario,
+                                      autofocus: false,
+                                      controller: Nome_usuario,
                                       decoration: InputDecoration(
                                           hintText: 'Nome',
                                           hintStyle: TextStyle(
@@ -127,27 +134,23 @@ class RegisterPage extends StatefulWidget {
                                           ),
                                           filled: true,
                                           fillColor: Colors.white,
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5))),
+                                           border: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Color.fromARGB(141, 193, 206, 235), width: 1),
+                                      borderRadius: BorderRadius.circular(110))),
                                       obscureText: false,
                                       keyboardType: TextInputType.text,
                                       style: TextStyle(
                                           color: Colors.black, fontSize: 20)),
                                 )),
 
-                            Divider(
-                              height: 10,
-                              color: Color(0xFF035397),
-                            ),
-
+                           
                             //EMAIL
 
                             Positioned(
-                              top: 378,
+                              top: 427,
                               child: SizedBox(
-                                width: 271,
-                                height: 80,
+                              width: 275,
+                              height: 55,
                                 child: TextFormField(
                                   validator: (value) {
                                     if (value == null ||
@@ -159,7 +162,7 @@ class RegisterPage extends StatefulWidget {
                                     }
                                     return null;
                                   },
-                                  autofocus: true,
+                                  autofocus: false,
                                   controller: Email_usuario,
                                   decoration: InputDecoration(
                                       hintText: 'E-mail',
@@ -171,27 +174,21 @@ class RegisterPage extends StatefulWidget {
 
                                       filled: true,
                                       fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5))),
+                                    border: OutlineInputBorder(
+                                   borderSide: BorderSide(color: Color.fromARGB(141, 193, 206, 235), width: 1),
+                                  borderRadius: BorderRadius.circular(110))),
                                   keyboardType: TextInputType.emailAddress,
                                   style: TextStyle(
-                                      color: Colors.black, fontSize: 20),
+                                  color: Colors.black, fontSize: 20),
                                 ),         ),
                             ),
 
-                            Divider(
-                     
-                              height: 10,
-                              color: Color(0xFF035397),
-                            ),
-                            
                             //Senha 
                             Positioned(
-                                top: 500,
+                                top: 494,
                                 child: SizedBox(
-                                    width: 271,
-                                    height: 80,
+                                     width: 275,
+                                    height: 55,
                                     child: TextFormField(
                                       controller: Senha_usuario,
                                       validator: (value) {
@@ -203,7 +200,7 @@ class RegisterPage extends StatefulWidget {
                                         }
                                         return null;
                                       },
-                                      autofocus: true,
+                                      autofocus: false,
                                       decoration: InputDecoration(
                                           hintText: 'Senha',
                                           hintStyle: TextStyle(
@@ -213,9 +210,9 @@ class RegisterPage extends StatefulWidget {
                                           ),
                                           filled: true,
                                           fillColor: Colors.white,
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5))),
+                                    border: OutlineInputBorder(
+                                   borderSide: BorderSide(color: Color.fromARGB(141, 193, 206, 235), width: 1),
+                                  borderRadius: BorderRadius.circular(110))),
                                       keyboardType: TextInputType.text,
                                       style: TextStyle(
                                           fontFamily: 'Karla',
@@ -223,17 +220,14 @@ class RegisterPage extends StatefulWidget {
                                           fontSize: 20),
                                       obscureText: true,
                                     ))),
-                            Divider(
-                              height: 10,
-                              color: Color(0xFF035397),
-                            ),
+                          
 
                             //Confirmação de senha
                             Positioned(
-                                top: 594,
+                                top: 561,
                                 child: SizedBox(
-                                    width: 271,
-                                    height: 80,
+                                     width: 275,
+                                    height: 55,
                                     child: TextFormField(
                                       controller: _ConfirmeSenha,
                                       validator: (value) {
@@ -244,7 +238,7 @@ class RegisterPage extends StatefulWidget {
                                           return 'Senhas diferentes';
                                         }
                                       },
-                                      autofocus: true,
+                                      autofocus: false,
                                       decoration: InputDecoration(
                                           hintText: 'Repita sua senha',
                                           hintStyle: TextStyle(
@@ -254,9 +248,9 @@ class RegisterPage extends StatefulWidget {
                                           ),
                                           filled: true,
                                           fillColor: Colors.white,
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5))),
+                                    border: OutlineInputBorder(
+                                   borderSide: BorderSide(color: Color.fromARGB(141, 193, 206, 235), width: 1),
+                                  borderRadius: BorderRadius.circular(110))),
                                       keyboardType: TextInputType.text,
                                       style: TextStyle(
                                           fontFamily: 'Karla',
@@ -264,13 +258,14 @@ class RegisterPage extends StatefulWidget {
                                           fontSize: 20),
                                       obscureText: true,
                                     ))),
-
-                            Divider(
-                              height: 10,
-                              color: Color(0xFF035397),
-                            ),
-
+                        
+                      
                             //Botão - cadastro
+                    Positioned(
+                    top: 628,  
+                      child: 
+                      ButtonTheme(
+                        child: 
                             ElevatedButton(
                               onPressed: () {
                                 if (formKey.currentState!.validate()) {
@@ -282,49 +277,46 @@ class RegisterPage extends StatefulWidget {
                                 style: TextStyle(
                                     fontFamily: 'Karla',
                                     color: Colors.black,
-                                    fontSize: 20),
+                                    fontSize: 17),
                               ),
                               style: ElevatedButton.styleFrom(
-                                  fixedSize: const Size(281, 60),
-                                  primary: Color(0xFFFDBE34),
+                                 elevation: 2,
+                              fixedSize: const Size(204, 50),
+                                  primary: Color(0xFFFCD900),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(85))),
-                            ),
+                      ))),
 
-                            Divider(
-                              height: 11,
-                              color: Color(0xFF035397),
-                            ),
-
-                            ElevatedButton(
+              
+                      //CADASTRO
+                    Positioned(
+                    top: 695,  
+                      child: 
+                      ButtonTheme(
+                           child: ElevatedButton(
                               onPressed: () => {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => LoginPage(),
-                                  ),
-                                ),
+                                  ) ),
                               },
                               child: Text(
                                 "Já sou cadastrado",
                                 style: TextStyle(
                                     fontFamily: 'Karla',
-                                    color: Colors.black,
-                                    fontSize: 20),
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    fontSize: 17),
                               ),
                               style: ElevatedButton.styleFrom(
-                                  fixedSize: const Size(281, 60),
-                                  primary: Color(0xFFFFFFFF),
+                                elevation: 2,
+                              fixedSize: const Size(204, 50),
+                                  primary: Color(0xFF035397),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(85))),
-                            ),
-
-                            Divider(
-                              height: 10,
-                              color: Color(0xFF035397),
-                            ),
+                            ))),
                           ]),
-                    )))));
+                    ]))))));
   }
 
         register () async {   
@@ -334,7 +326,7 @@ class RegisterPage extends StatefulWidget {
           email: Email_usuario.text, password: Senha_usuario.text);
           
           if (userCredential != null){
-          userCredential.user!.updateDisplayName(Nome_usario.text);
+          userCredential.user!.updateDisplayName(Nome_usuario.text);
           Navigator.pushAndRemoveUntil(
           context, 
           MaterialPageRoute(
@@ -346,10 +338,23 @@ class RegisterPage extends StatefulWidget {
           }
           on FirebaseAuthException catch (e) {
             
-            if(e.code == 'email-already-in-use') {
-              return null;
+            if(e.code == 'week-password') {
+              ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Crie uma senha mais forte'),
+                backgroundColor: Colors.redAccent,
+                )
+              );}
+
+              else if (e.code == 'email-already-in-use') {
+                ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Este e-mail já foi cadastrado'),
+                backgroundColor: Colors.redAccent,
+                ));
+              }
                 
               
             }
 
-          }}}
+          }}

@@ -8,4 +8,3 @@ class DBFirestore {
   static FirebaseFirestore get(){
     return DBFirestore._instance._firestore;
 }}
-  

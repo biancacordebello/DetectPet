@@ -38,6 +38,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
   //BANCO 
   FirebaseFirestore db = FirebaseFirestore.instance;
 
+  String imageUrl = '';
 
   List <String> refs = [];
   bool loading = true;
@@ -45,11 +46,31 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
   File? _photo;
   final ImagePicker _picker = ImagePicker();
   
-  
-  // STORAGE
+  // Imagem
+
+  String uniqueFileName = DateTime.now().microsecondsSinceEpoch.toString();
+
   Future imgFromGallery() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    print('${pickedFile?.path}');
 
+    if (pickedFile == null) return;
+
+    Reference referenceRoot = FirebaseStorage.instance.ref();
+    Reference referenceDirImages = referenceRoot.child('images');
+
+    Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);
+
+    try {
+    await referenceImageToUpload.putFile(File(pickedFile!.path));
+
+    imageUrl = await referenceImageToUpload.getDownloadURL();
+
+    } catch(error){
+
+      //Mostrar Erro
+
+    }
   
     setState(() {
     if (pickedFile != null) {
@@ -57,23 +78,45 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
   
         _photo = File(pickedFile.path);
-        sendData();
+        // sendDatap();
   }});  } 
         
   
 
   Future imgFromCamera() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+    print('${pickedFile?.path}');
+
+    if (pickedFile == null) return;
+
+    Reference referenceRoot = FirebaseStorage.instance.ref();
+    Reference referenceDirImages = referenceRoot.child('images');
+
+    Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);
+
+    try {
+    await referenceImageToUpload.putFile(File(pickedFile!.path));
+
+    imageUrl = await referenceImageToUpload.getDownloadURL();
+
+    } catch(error){
+
+      //Mostrar Erro
+
+    }
+
+
 
     setState(() {
           if (pickedFile != null) {
 
        _photo = File(pickedFile.path);
-        sendData();
-      }    });}
+        // sendDataa();
+      }    }
+      
+      );}
     
-     
-  
+   
 
   //CONTROLLERS
   final formKey = GlobalKey<FormState>();
@@ -82,6 +125,10 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
   final TextEditingController _breed = TextEditingController();
   final TextEditingController _age = TextEditingController();
   final TextEditingController _localization = TextEditingController();
+  final TextEditingController _name = TextEditingController();
+  final TextEditingController _phone = TextEditingController();
+
+
   var porte = TextEditingController();
   var sexo = TextEditingController();
   var situacao = TextEditingController();
@@ -111,26 +158,37 @@ String selectedValue2 = '';
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
-      
+        backgroundColor: const Color(0xffF5F5F5),
+
         appBar: AppBar(
-          title: const Text('Nova Publicação'), 
-          titleTextStyle: const TextStyle(color: Color(0xFFFDBE34), fontSize: 25, fontFamily: 'Karla'),
-          backgroundColor: const Color(0xFF035397),
-          toolbarHeight: 60,
-          leading:  
-            IconButton(
-              icon: const Icon(Icons.arrow_back, color: Color(0xFFFDBE34), size: 35),
-              onPressed: () {
-                 Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const BottonNavigationBar0(),
-                        ));
-              },
-            )
-            ),
+        backgroundColor: const Color(0xffF5F5F5),
+        toolbarHeight: 60,
+        automaticallyImplyLeading: false,
+        title: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 18),
+          child: Builder(
+            builder: (context) => 
+            Container(
+            width: 45,
+            height: 45,
+            child: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Color(0xFFFCD900)),
+            onPressed: () => Navigator.push(
+            context,
+             MaterialPageRoute(
+            builder: (context) => const BottomNavigationBar0()))),
+            decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(10)), 
+            color:  Color(0xFF035397),
+
+                ),
+            )),
+          ),
+        elevation: 0,
+        centerTitle: false,
+        titleSpacing: 0,
+        ),
 
           //IMAGE    
           body: SingleChildScrollView(  
@@ -148,7 +206,7 @@ String selectedValue2 = '';
          _showPicker(context);
           },
           child: Container(
-          width: 250, height: 250,
+          height: 250,
           child: _photo != null
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(5),
@@ -164,13 +222,16 @@ String selectedValue2 = '';
                       
                     : Container(
                         decoration: BoxDecoration(
-                            color: const Color(0xFF035397).withOpacity(0.22), 
-                            borderRadius: BorderRadius.circular(5)),
+                            color:  Colors.white, 
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                            ),
+                            ),
                         width: 250,
                         height: 250,
                         child: const Icon(
                            Icons.add_photo_alternate_rounded,
-                          color: Color(0xFFFDBE34), size: 50,
+                          color:  Color(0xFF035397), size: 50,
                         ),
           
           )))])),
@@ -179,8 +240,39 @@ String selectedValue2 = '';
         height: 25
         ),
 
-         //DESCRIÇÃO
+         
+        //NOME
         Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: SizedBox(
+        height: 50,
+        width: double.infinity,
+        child: TextFormField(
+        validator: (_name) {},
+        controller: _name,
+        decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(5),
+        borderSide: BorderSide(
+        color: const Color(0xFF035397),
+        width: 3,
+        ),
+        ),       
+        labelText: 'Nome do Pet',
+        labelStyle: const TextStyle(
+        color: Color(0xFF035397),
+        fontFamily: 'Karla',
+        fontSize: 20,
+        )))
+        )),
+
+        const SizedBox(
+        height: 25
+        ),
+      
+      Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
         child: SizedBox(
         height: 50,
@@ -190,10 +282,13 @@ String selectedValue2 = '';
         controller: _description,
         decoration: InputDecoration(
         filled: true,
-        fillColor: const Color(0xFF035397).withOpacity(0.22),
+        fillColor: Colors.white,
         border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(5),
-        borderSide: BorderSide.none
+        borderSide: BorderSide(
+        color: const Color(0xFF035397),
+        width: 3,
+        ),
         ),               
         labelText: 'Descrição',
         labelStyle: const TextStyle(
@@ -207,7 +302,6 @@ String selectedValue2 = '';
         const SizedBox(
         height: 25
         ),
-
         //ESPÉCIE DO ANIMAL
         Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -219,10 +313,13 @@ String selectedValue2 = '';
         controller: _specie,
         decoration: InputDecoration(
         filled: true,
-        fillColor: const Color(0xFF035397).withOpacity(0.22),
+        fillColor: Colors.white,
         border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(5),
-        borderSide: BorderSide.none,
+        borderSide: BorderSide(
+        color: const Color(0xFF035397),
+        width: 3,
+        ),
         ),       
         labelText: 'Espécie',
         labelStyle: const TextStyle(
@@ -247,10 +344,11 @@ String selectedValue2 = '';
         controller: _breed,
         decoration: InputDecoration(
         filled: true,
-        fillColor: const Color(0xFF035397).withOpacity(0.22),
+        fillColor: Colors.white,
         border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(5),
-        borderSide: BorderSide.none,
+        borderSide: BorderSide(
+        ),
         ),        
         labelText: 'Raça',
         labelStyle: const TextStyle(
@@ -273,6 +371,7 @@ String selectedValue2 = '';
         width: double.infinity,        
         child: DropdownButtonHideUnderline(
         child: DropdownButton2(
+        value: selectedValue,
         isExpanded: true,
           hint: const Text(
             'Selecione o Porte',
@@ -301,23 +400,26 @@ String selectedValue2 = '';
                   
                   ))
                   .toList(),
-          onChanged: (value) {
+          onChanged: (porte2) {
             setState(() {
-              selectedValue = value.toString();
+              selectedValue = porte2.toString();
             });
           },
           iconSize: 40,
-          iconEnabledColor: const Color(0xFFFDBE34),
-          iconDisabledColor: const Color(0xFFFDBE34),
+          iconEnabledColor: const Color(0xFF035397),
+          iconDisabledColor: const Color(0xFF035397),
           buttonHeight: 40,
           buttonWidth: 140,
           itemHeight: 40,
           buttonDecoration: BoxDecoration(
-          color: const Color(0xFF035397).withOpacity(0.22),
+          color: Colors.white,
           borderRadius: BorderRadius.circular(5),
+          border: Border.all(
+          ),
+        ),
             
         ),
-      )))),
+      ))),
           
         const SizedBox(
         height: 25
@@ -331,6 +433,7 @@ String selectedValue2 = '';
         width: double.infinity,        
         child: DropdownButtonHideUnderline(
         child: DropdownButton2(
+        // value: selectedValue1,
         isExpanded: true,
           hint: const Text(
             'Selecione o Sexo',
@@ -359,23 +462,26 @@ String selectedValue2 = '';
                   
                   ))
                   .toList(),
-          onChanged: (value) {
+          onChanged: (sexo2) {
             setState(() {
-              selectedValue1 = value.toString();
+              selectedValue1 = sexo2.toString();
             });
           },
           iconSize: 40,
-          iconEnabledColor: const Color(0xFFFDBE34),
-          iconDisabledColor: const Color(0xFFFDBE34),
+          iconEnabledColor: const Color(0xFF035397),
+          iconDisabledColor: const Color(0xFF035397),
           buttonHeight: 40,
           buttonWidth: 140,
           itemHeight: 40,
           buttonDecoration: BoxDecoration(
-          color: const Color(0xFF035397).withOpacity(0.22),
+          color: Colors.white,
           borderRadius: BorderRadius.circular(5),
+          border: Border.all(
+          color: const Color(0xFF035397),
+         
             
         ),
-      )))),
+      ))))),
           
 
         const SizedBox(
@@ -394,10 +500,13 @@ String selectedValue2 = '';
         controller: _age,
         decoration: InputDecoration(
         filled: true,
-        fillColor: const Color(0xFF035397).withOpacity(0.22),
+        fillColor: Colors.white,
         border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(5),
-        borderSide: BorderSide.none,
+        borderSide: BorderSide(
+        color: const Color(0xFF035397),
+        width: 3,
+        ),
         ),
         labelText: 'Idade',
         labelStyle: const TextStyle(
@@ -411,6 +520,8 @@ String selectedValue2 = '';
         height: 25
         ),
 
+        
+
       //LOCALIZAÇÃO
       Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -422,10 +533,13 @@ String selectedValue2 = '';
       controller: _localization,
       decoration: InputDecoration(
       filled: true,
-      fillColor: const Color(0xFF035397).withOpacity(0.22),
+      fillColor: Colors.white,
       border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(5),
-      borderSide: BorderSide.none,
+      borderSide: BorderSide(
+      color: const Color(0xFF035397),
+      width: 3,
+        ),
       ),
       labelText: 'Localização',
       labelStyle: const TextStyle(
@@ -439,6 +553,37 @@ String selectedValue2 = '';
         height: 25
         ),
 
+          //Telefone
+       Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: SizedBox(
+        height: 50,
+        width: double.infinity,
+        child: TextFormField(
+        validator: (_phone) {}, 
+        controller: _phone,
+        decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(5),
+        borderSide: BorderSide(
+        color: const Color(0xFF035397),
+        width: 3,
+        ),
+        ),
+        labelText: 'Telefone para contato',
+        labelStyle: const TextStyle(
+        color: Color(0xFF035397),
+        fontFamily: 'Karla',
+        fontSize: 20
+        )))
+        )),
+
+        const SizedBox(
+        height: 25
+        ),
+
       //SITUAÇÃO
       Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -447,6 +592,7 @@ String selectedValue2 = '';
         width: double.infinity,        
         child: DropdownButtonHideUnderline(
         child: DropdownButton2(
+        // value: selectedValue2,
         isExpanded: true,
           hint: const Text(
             'Selecione a Situação do Animal',
@@ -475,27 +621,27 @@ String selectedValue2 = '';
                   
                   ))
                   .toList(),
-          onChanged: (value) {
+          onChanged: (situacao2) {
             setState(() {
-              selectedValue2 = value.toString();
+              selectedValue2 = situacao2.toString();
             });
           },
           
           
           iconSize: 40,
-          iconEnabledColor: const Color(0xFFFDBE34),
-          iconDisabledColor: const Color(0xFFFDBE34),
+          iconEnabledColor: const Color(0xFF035397),
+          iconDisabledColor: const Color(0xFF035397),
           buttonHeight: 40,
           buttonWidth: 140,
           itemHeight: 40,
           buttonDecoration: BoxDecoration(
-          color: const Color(0xFF035397).withOpacity(0.22),
+          color: Colors.white,
           borderRadius: BorderRadius.circular(5),
-          
+          border: Border.all(
         ) 
       ),
      
-      ))),
+      )))),
 
       const SizedBox(
         height: 25
@@ -516,30 +662,34 @@ String selectedValue2 = '';
         situacao.text = selectedValue2;
      
       if (selectedValue2 == 'Adoção') {
-      sendData();
+      sendDataa();
       Navigator.push(
       context,
       MaterialPageRoute(
-      builder: (context) => const BottonNavigationBar0()));
+      builder: (context) => const BottomNavigationBar0()));
       }
-     else if (selectedValue2 == 'Perdidos') {
+
+     else if (selectedValue2 == 'Perdido') {
       sendDatap();
       Navigator.push(
       context,
       MaterialPageRoute(
-      builder: (context) => const BottonNavigationBar1()));
+      builder: (context) => const BottomNavigationBar2()));
      }
-      else if (selectedValue2 == null || selectedValue2.isEmpty || _specie == null || selectedValue1 == null || selectedValue1.isEmpty ||
+
+      else if (selectedValue2 == null || selectedValue2.isEmpty || _specie == null || selectedValue1 == null || 
+      selectedValue1.isEmpty ||
       selectedValue == null || selectedValue.isEmpty || _age == null || _breed == null || _description == null ||
-      _localization == null   
+      _localization == null || _phone == null
       )
+
       {
       showDialog(
       context: context,
       builder: (BuildContext context) {
       return AlertDialog(
-      title: new Text("Erro"),
-      content: new Text("Verifique se algum campo se encontra vazio"), 
+      title: Text("Erro"),
+      content: Text("Verifique se algum campo se encontra vazio"), 
       shape: const RoundedRectangleBorder(
     borderRadius: BorderRadius.all(Radius.circular(20))),
       actions: <Widget>[
@@ -548,15 +698,16 @@ String selectedValue2 = '';
             Navigator.of(context).pop();
           },
           style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFFDBE34),
+          backgroundColor: const Color(0xFF035397),
           shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5))),
-          child: const Text("OK", style: TextStyle(color: Colors.black)),
+          child: const Text("OK", style: TextStyle(color: Colors.white)),
         ),
       ],
     );
   },
 );
+      
       }
       
       },  
@@ -564,14 +715,14 @@ String selectedValue2 = '';
       child: const Text(
       "Enviar",
       style: TextStyle(
-      color: Colors.black,
+      color: Colors.white,
       fontSize: 20,
       fontFamily: 'Karla',
       ),
       ),
       style: ElevatedButton.styleFrom(
       fixedSize: const Size(111, 40),
-      primary: const Color(0xFFFDBE34),
+      primary: Color(0xFF035397),
       shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(5))
       )),],
@@ -597,18 +748,18 @@ String selectedValue2 = '';
         builder: (BuildContext bc) {
           return SafeArea(
             child: Container(
-              child: new Wrap(
+              child: Wrap(
                 children: <Widget>[
-                  new ListTile(
-                      leading: new Icon(Icons.photo_library),
-                      title: new Text('Galeria'),
+                  ListTile(
+                      leading: const Icon(Icons.photo_library),
+                      title: const Text('Galeria'),
                       onTap: () {
                         imgFromGallery();
                         Navigator.of(context).pop();
                       }),
-                  new ListTile(
-                    leading: new Icon(Icons.photo_camera),
-                    title: new Text('Camera'),
+                  ListTile(
+                    leading: Icon(Icons.photo_camera),
+                    title: Text('Camera'),
                     onTap: () {
                       imgFromCamera();
                       Navigator.of(context).pop();
@@ -622,9 +773,10 @@ String selectedValue2 = '';
     
 
     //BANCO DE DADOS - ENVIAR DADOS 
-    void sendData() async{
+    void sendDataa() async{
     String id = const Uuid().v1();
     db.collection("adocao").doc(id).set({
+    "Nome": _name.text,
     "Descrição": _description.text,
     "Espécie": _specie.text,
     "Raça": _breed.text,
@@ -633,12 +785,15 @@ String selectedValue2 = '';
     "Idade": _age.text,
     "Localização": _localization.text,
     "Situação": selectedValue2,
+    "Telefone": _phone.text,
+    "Imagem": imageUrl,
     }).onError((a, _) => print("Error writing document: $a"));
     }
 
     void sendDatap() async{
-    String id = const Uuid().v1();
-    db.collection("perdidos").doc(id).set({
+    String id1 = const Uuid().v1();
+    db.collection("perdidos").doc(id1).set({
+    "Nome": _name.text,
     "Descrição": _description.text,
     "Espécie": _specie.text,
     "Raça": _breed.text,
@@ -647,9 +802,13 @@ String selectedValue2 = '';
     "Idade": _age.text,
     "Localização": _localization.text,
     "Situação": selectedValue2,
+    "Telefone": _phone.text,
+    "Imagem": imageUrl,
+
     }).onError((a, _) => print("Error writing document: $a"));
        
     }
-    
+  
+  
    
   }
